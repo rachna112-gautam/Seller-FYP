@@ -1,0 +1,21 @@
+.register-main {
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.register-row {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.register--btn {
+  margin-top: 8%;
+  background-color: #0d6efd !important;
+  border: none;
+}
+
+.register--btn a {
+  color: #fff !important;
+}
