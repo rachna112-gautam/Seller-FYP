@@ -1,8 +1,8 @@
 .register-main {
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 50% !important;
+  margin: 5rem auto;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
 }
 .register-row {
   width: 50%;
@@ -18,4 +18,10 @@
 
 .register--btn a {
   color: #fff !important;
+}
+
+.register-heading {
+  margin: 1rem;
+  background: brown;
+  padding: 0.5rem 1rem;
 }

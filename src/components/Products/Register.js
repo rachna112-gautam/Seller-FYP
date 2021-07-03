@@ -19,52 +19,56 @@ export default class Register extends Component {
       <>
         <Header />
         <Container fluid={true} className="register-main">
-          <Row lg={12} className="register-row">
-            <Col lg={12} className="form-main">
-              <Form className="form">
-                <Row>
-                  <Col lg={12}>
-                    <FormGroup>
-                      <Label for="exampleSelect" sm={2}>
-                        Identity Type
-                      </Label>
-                      <Col lg={12}>
-                        <Input type="select" name="select">
-                          <option>Adhar card</option>
-                          <option>Pan Card</option>
-                          <option>Voter Id</option>
-                          <option>Passport</option>
-                        </Input>
-                      </Col>
-                      {/* <div className="valid-feedback">valid.</div>
+          <h4 className="register-heading">Seller's Registeration Form</h4>
+          <Form className="form ">
+            <Row>
+              <Col lg={12}>
+                <FormGroup>
+                  <Label for="exampleSelect" sm={3}>
+                    Identity Type
+                  </Label>
+                  <Col lg={9}>
+                    <Input type="select" name="select">
+                      <option>Adhar card</option>
+                      <option>Pan Card</option>
+                      <option>Voter Id</option>
+                      <option>Passport</option>
+                    </Input>
+                  </Col>
+                  {/* <div className="valid-feedback">valid.</div>
                     <div className="invalid-feedback">Please enter user id</div> */}
-                    </FormGroup>
-                  </Col>
-                </Row>
+                </FormGroup>
+              </Col>
+            </Row>
 
-                <Row>
-                  <Col lg={12}>
-                    <FormGroup>
-                      <Label for="identity">Identity number</Label>
-                      <Input
-                        type="name"
-                        name="firstname"
-                        id="firstname"
-                        placeholder="Enter your Id number"
-                        required
-                      />
-                    </FormGroup>
-                    <div className="valid-feedback">valid.</div>
-                    <div className="invalid-feedback">Please enter user id</div>
+            <Row>
+              <Col lg={12}>
+                <FormGroup>
+                  <Label for="identity" sm={3}>Identity number</Label>
+                  <Col lg={9}>
+                    <Input
+                      type="name"
+                      name="firstname"
+                      id="firstname"
+                      placeholder="Enter your Id number"
+                      required
+                    />
                   </Col>
-                </Row>
+                </FormGroup>
+                <div className="valid-feedback">valid.</div>
+                <div className="invalid-feedback">Please enter user id</div>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
 
-                <Button className="register--btn">
-                  <a href="/profile">Register As Seller</a>
-                </Button>
-              </Form>
-            </Col>
-          </Row>
+                <button type="submit" className="btn btn-primary mt-3 ml-3">
+                  Register
+                </button>
+              </Col></Row>
+
+          </Form>
+
         </Container>
         <Footer />
       </>

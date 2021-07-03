@@ -18,7 +18,10 @@ import {
 } from "reactstrap";
 
 export default function Profile() {
-  const [modalData, setModalData] = useState({});
+  const [editModalInput, setEditModalInput] = useState({
+    price: '',
+    title: ''
+  });
   const items = [
     {
       id: 1,
@@ -61,6 +64,15 @@ export default function Profile() {
       type: "background",
     },
   ];
+
+  const editModalOnChange = (e) => {
+    e.preventDefault();
+    setEditModalInput({
+      ...editModalInput,
+      [e.target.name]: e.target.value
+    })
+    console.log(editModalInput)
+  }
   return (
     <div className="signin">
       <div
@@ -73,7 +85,7 @@ export default function Profile() {
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-                <h4>Edit Product</h4>
+              <h4>Edit Product</h4>
               <button
                 type="button"
                 class="btn-close"
@@ -81,18 +93,21 @@ export default function Profile() {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body px-4">
               <Form className="form">
                 <Row>
                   <FormGroup>
-                    <Label for="exampleSelect" lg={2}>
+                    <Label for="title" lg={3}>
                       Product Title
                     </Label>
                     <Col lg={9}>
                       <Input
                         type="text"
-                        name="product-title"
+                        name="title"
                         placeholder="Enter Product Title"
+                        onChange={e => editModalOnChange(e)}
+                        defaultValue={editModalInput.title}
+                        required
                       ></Input>
                     </Col>
                     {/* <div className="valid-feedback">valid.</div>
@@ -102,15 +117,17 @@ export default function Profile() {
 
                 <Row>
                   <FormGroup>
-                    <Label for="identity" lg={2}>
+                    <Label for="price" lg={3}>
                       Product Price
                     </Label>
                     <Col lg="9">
                       <Input
                         type="number"
-                        name="number"
+                        name="price"
                         id="product-type"
                         placeholder="Enter your Product Price"
+                        defaultValue={editModalInput.price}
+                        onChange={e => editModalOnChange(e)}
                         required
                       />
                     </Col>
@@ -122,13 +139,14 @@ export default function Profile() {
                 </Row>
                 <Row>
                   <FormGroup>
-                    <Label for="product-type" lg={2}>
+                    <Label for="product-type" lg={3}>
                       Product Type
                     </Label>
                     <Col lg={9}>
-                      <Input type="select" name="select" id="product-type">
-                        <option>Background</option>
-                        <option>Template</option>
+                      <Input type="select" name="select" id="product-type" required>
+                        <option selected>Choose a category</option>
+                        <option value="background" selected>Background</option>
+                        <option value="template">Template</option>
                       </Input>
                     </Col>
                   </FormGroup>
@@ -152,13 +170,17 @@ export default function Profile() {
                     </div>
                   </Col>
                 </Row>
+                <Row >
+                  <Col lg={12} className="d-flex justify-content-end align-items-center">
+                    <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Close</button>
+                    <button className="btn btn-primary" type="submit">
+                      Update
+                    </button>
+                  </Col>
+                </Row>
               </Form>
             </div>
-            <div class="modal-footer">
-              <Button className="register--btn">
-                <a href="/profile" className="update--btn">Update</a>
-              </Button>
-            </div>
+
           </div>
         </div>
       </div>
@@ -248,11 +270,17 @@ export default function Profile() {
                       <div>
                         <button
                           type="button"
-                          className="btn text-white"
+                          className="btn text-white edit-btn"
                           data-bs-toggle="modal"
                           data-bs-target="#exampleModal"
+                          onClick={() =>
+
+                            setEditModalInput(data)
+
+                          }
+
                         >
-                          Edit
+                          <i class="far fa-edit mx-3"></i>
                         </button>
                         <button type="button" className="btn btn-danger">
                           Delete&nbsp;<i class="fas fa-delete"></i>
@@ -273,7 +301,7 @@ export default function Profile() {
                 <Form className="form">
                   <Row>
                     <FormGroup>
-                      <Label for="exampleSelect" lg={2}>
+                      <Label for="exampleSelect" lg={3}>
                         Product Title
                       </Label>
                       <Col lg={9}>
@@ -290,10 +318,10 @@ export default function Profile() {
 
                   <Row>
                     <FormGroup>
-                      <Label for="identity" lg={2}>
+                      <Label for="identity" lg={3}>
                         Product Price
                       </Label>
-                      <Col lg="9">
+                      <Col lg={9}>
                         <Input
                           type="number"
                           name="number"
@@ -310,11 +338,12 @@ export default function Profile() {
                   </Row>
                   <Row>
                     <FormGroup>
-                      <Label for="product-type" lg={2}>
+                      <Label for="product-type" lg={3}>
                         Product Type
                       </Label>
                       <Col lg={9}>
                         <Input type="select" name="select" id="product-type">
+                          <option selected>Select your category</option>
                           <option>Background</option>
                           <option>Template</option>
                         </Input>
@@ -340,13 +369,19 @@ export default function Profile() {
                       </div>
                     </Col>
                   </Row>
+                  <Row>
+                    <Col>
+
+                      <button type="submit" className="btn browsing">
+                        <a href="/" className="add-product--btn">
+                          Add Product
+                        </a>
+                      </button>
+                    </Col>
+                  </Row>
                 </Form>
 
-                <button type="button" className="btn browsing">
-                  <a href="/" className="add-product--btn">
-                    Add Product
-                  </a>
-                </button>
+
               </Col>
             </div>
           </div>

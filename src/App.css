@@ -11,17 +11,30 @@
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
+
+a {
+  text-decoration: none !important;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn {
+  font-size: 1.2rem !important;
+  font-weight: 500 !important;
+}
 /**************HEADER****************/
 
-.heading{
-padding: 3%!important;
+.heading {
+  padding: 3% !important;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .site-title {
@@ -61,11 +74,10 @@ a {
 /*************MAIN**************/
 .main {
   padding: 4rem 1rem;
-  border-bottom: 1px solid #676370;
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .main h2 {
@@ -211,6 +223,10 @@ p.col-6.mb-0.text-truncate {
 
 /*******************FOOTER*******************/
 footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;

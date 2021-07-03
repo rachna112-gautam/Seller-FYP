@@ -19,19 +19,18 @@
 .nav-link:hover {
   color: #fff !important;
 }
-.profile-wallet{
-    width: 100% !important;
+.profile-wallet {
+  width: 100% !important;
   background: rgba(0, 0, 0, 0.1) !important;
   padding: 1rem !important;
- 
+
   margin: 0.5rem 0 !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
   flex-wrap: wrap !important;
 }
-.profile-wallet--list{
-       
+.profile-wallet--list {
   background: rgba(0, 0, 0, 0.1);
   padding: 1rem;
   font-size: 1.3rem;
@@ -40,10 +39,10 @@
 }
 #v-pills-profile ul {
   list-style: none;
-  display: flex  !important;
+  display: flex !important;
   flex-wrap: wrap !important;
   padding-inline-start: 0 !important;
- width: 100% !important;
+  width: 100% !important;
 }
 #v-pills-products ul li {
   width: 100% !important;
@@ -69,8 +68,8 @@
   object-fit: cover;
 }
 
-#v-pills-products ul li .productDetail span{ 
- display: inline-block;
+#v-pills-products ul li .productDetail span {
+  display: inline-block;
   margin: 0 1rem;
   background-color: black;
   padding: 0.4rem;
@@ -83,17 +82,31 @@
   box-shadow: none;
 }
 
-.add-product--btn{
-    color: white !important;
+.add-product--btn {
+  color: white !important;
 }
 
-.form-group{
-    display: flex;
-        margin: 2%;
+.form-group {
+  display: flex;
+  margin: 2%;
 }
-.update--btn{
-    color: white !important;
+.update--btn {
+  color: white !important;
 }
-.modal-content{
-    background-color: #475f82 !important;
+.modal-content {
+  background-color: #475f82 !important;
+}
+
+button.nav-link {
+  width: 130%;
+}
+
+input#formFileLg {
+  padding: 0 5rem;
+}
+
+.edit-btn:hover,
+.edit-btn:focus {
+  box-shadow: none !important;
+  text-decoration: underline;
 }
