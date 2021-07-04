@@ -99,6 +99,8 @@ export default function Profile(props) {
   const addProdOnSubmitHandle = (e) => {
     e.preventDefault();
     console.log("add Product details", addProdData);
+    //call add function
+    setAddProdData(addProdInitialData)
   }
   return (
     <div className="signin">
