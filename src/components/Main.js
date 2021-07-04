@@ -12,9 +12,7 @@ export default function main(props) {
         <button
           type="button"
           className="btn browsing"
-          onClick={() => {
-            props.register();
-          }}
+
         >
           <a href="/register" className="text-white">Register As Seller</a>
         </button>

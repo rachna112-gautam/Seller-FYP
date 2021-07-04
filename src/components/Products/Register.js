@@ -29,10 +29,11 @@ export default class Register extends Component {
                   </Label>
                   <Col lg={9}>
                     <Input type="select" name="select">
-                      <option>Adhar card</option>
-                      <option>Pan Card</option>
-                      <option>Voter Id</option>
-                      <option>Passport</option>
+                      <option selected>Select Identity Type</option>
+                      <option value="aadhar">Aadhar card</option>
+                      <option value="pancard">Pan Card</option>
+                      <option value="voter">Voter Id</option>
+                      <option value="passport">Passport</option>
                     </Input>
                   </Col>
                   {/* <div className="valid-feedback">valid.</div>

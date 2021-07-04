@@ -3,459 +3,458 @@ import { Route } from 'react-router-dom';
 import Home from './components/Home';
 import SignIn from './components/SignIn';
 import Web3 from 'web3'
-import {useEffect,useState} from 'react'
+import { useEffect, useState } from 'react'
 import Register from './components/Products/Register'
 import Profile from './components/Products/Profile'
 
 function App() {
 
-  const [contract,setContract] = useState()
-  const [account,setAccount] = useState()
-  const [userInfo,setUserInfo] = useState()
+  const [contract, setContract] = useState();
+  const [account, setAccount] = useState();
+  const [buyerInfo, setBuyerInfo] = useState();
 
-  useEffect(()=>{
-    setInterval(()=>{
+  useEffect(() => {
+    setInterval(() => {
       load();
       loadContract();
-      
-    },5000)
-   
-  },[])
 
-  useEffect(()=>{
+    }, 5000)
+
+  }, [])
+
+  useEffect(() => {
     getBuyerInfo();
     getItems();
-  },[contract,account])
+  }, [contract, account])
 
-    const loadWeb3 =async () => {
-      if (window.ethereum) {
-          window.web3 = new Web3(window.ethereum);
-          window.ethereum.enable();
-          let account = await window.web3.eth.getAccounts();
-          setAccount(account[0]);
-          console.log("account",account);
-      }
+  const loadWeb3 = async () => {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      window.ethereum.enable();
+      let account = await window.web3.eth.getAccounts();
+      setAccount(account[0]);
+      let balance = await window.web3.eth.getBalance(account[0])
+      console.log("account & balance", account, balance / 10 ** 18);
+    }
   }
-  
-   const load=async() =>{
-      await loadWeb3();
-      updateStatus('Ready!');
+
+  const load = async () => {
+    await loadWeb3();
+    updateStatus('Ready!');
   }
-  
-  const updateStatus=(status) =>{
-      const statusEl = document.getElementById('status');
-   
-      console.log(status);
+
+  const updateStatus = (status) => {
+    const statusEl = document.getElementById('status');
+
+    console.log(status);
   }
-  
-  const getItems = async()=>{
-    if(contract){
+
+  const getItems = async () => {
+    if (contract) {
       let totalItems = await contract.methods.totalItems().call();
       let items = [];
-      for(let i=1;i<=totalItems;i++){
-        let item= await contract.methods.products(i).call();
+      for (let i = 1; i <= totalItems; i++) {
+        let item = await contract.methods.products(i).call();
         items.push(item);
       }
-      console.log("items",items);
+      console.log("items", items);
     }
   }
-  
-  const getBuyerInfo = async()=>{
-    if(contract && account){
+
+  const getBuyerInfo = async () => {
+    if (contract && account) {
       let userInfo = await contract.methods.buyers(account).call();
-      console.log("userInfo",userInfo)
+      setBuyerInfo(userInfo);
+      console.log("userInfo", userInfo)
 
     }
   }
 
-  const loadContract = async()=> {
+  const loadContract = async () => {
     let ABI = [
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "string",
-            name: "_name",
-            type: "string",
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
           },
           {
-            internalType: "uint256",
-            name: "_price",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "_price",
+            "type": "uint256"
+          }
         ],
-        name: "AddItem",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "AddItem",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "_buyer",
-            type: "address",
+            "internalType": "address",
+            "name": "_buyer",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "_seller",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "_seller",
+            "type": "address"
+          }
         ],
-        name: "DecreaseSellerRating",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "DecreaseSellerRating",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "_itemId",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "_itemId",
+            "type": "uint256"
+          }
         ],
-        name: "DeleteItem",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "DeleteItem",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "_itemId",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "_itemId",
+            "type": "uint256"
+          }
         ],
-        name: "PurchaseItem",
-        outputs: [],
-        stateMutability: "payable",
-        type: "function",
+        "name": "PurchaseItem",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "_itemId",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "_itemId",
+            "type": "uint256"
+          }
         ],
-        name: "RaiseDispute",
-        outputs: [],
-        stateMutability: "payable",
-        type: "function",
+        "name": "RaiseDispute",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "RegisterAsBuyer",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "inputs": [],
+        "name": "RegisterAsBuyer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "_identityNumber",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "_identityNumber",
+            "type": "uint256"
           },
           {
-            internalType: "uint256",
-            name: "_identityType",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "_identityType",
+            "type": "uint256"
+          }
         ],
-        name: "RegisterAsSeller",
-        outputs: [],
-        stateMutability: "payable",
-        type: "function",
+        "name": "RegisterAsSeller",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
       },
       {
-        inputs: [],
-        stateMutability: "nonpayable",
-        type: "constructor",
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "_itemId",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "_itemId",
+            "type": "uint256"
           },
           {
-            internalType: "uint256",
-            name: "_price",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "_price",
+            "type": "uint256"
           },
           {
-            internalType: "string",
-            name: "_name",
-            type: "string",
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
           },
           {
-            internalType: "address",
-            name: "_owner",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+          }
         ],
-        name: "UpdateItem",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "UpdateItem",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "WithdrawAmountBySeller",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "inputs": [],
+        "name": "WithdrawAmountBySeller",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "WithdrawGovernanceAmount",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "inputs": [],
+        "name": "WithdrawGovernanceAmount",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "WithdrawJudgeFee",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "inputs": [],
+        "name": "WithdrawJudgeFee",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "balances",
-        outputs: [
+        "name": "balances",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "buyers",
-        outputs: [
+        "name": "buyers",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "bid",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "bid",
+            "type": "uint256"
           },
           {
-            internalType: "bool",
-            name: "isExist",
-            type: "bool",
-          },
+            "internalType": "bool",
+            "name": "isExist",
+            "type": "bool"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
+            "internalType": "address",
+            "name": "",
+            "type": "address"
           },
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        name: "buyersPurchases",
-        outputs: [
+        "name": "buyersPurchases",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        name: "products",
-        outputs: [
+        "name": "products",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "pid",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "pid",
+            "type": "uint256"
           },
           {
-            internalType: "string",
-            name: "name",
-            type: "string",
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
           },
           {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "price",
+            "type": "uint256"
           },
           {
-            internalType: "address",
-            name: "prevOwner",
-            type: "address",
+            "internalType": "address",
+            "name": "prevOwner",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "owner",
-            type: "address",
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
           },
           {
-            internalType: "bool",
-            name: "isExist",
-            type: "bool",
+            "internalType": "bool",
+            "name": "isExist",
+            "type": "bool"
           },
           {
-            internalType: "bool",
-            name: "isPurchased",
-            type: "bool",
+            "internalType": "bool",
+            "name": "isPurchased",
+            "type": "bool"
           },
           {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
           },
           {
-            internalType: "bool",
-            name: "paymentRecieved",
-            type: "bool",
-          },
+            "internalType": "bool",
+            "name": "paymentRecieved",
+            "type": "bool"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "sellers",
-        outputs: [
+        "name": "sellers",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "sid",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "sid",
+            "type": "uint256"
           },
           {
-            internalType: "uint256",
-            name: "identityNumber",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "identityNumber",
+            "type": "uint256"
           },
           {
-            internalType: "uint256",
-            name: "identityType",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "identityType",
+            "type": "uint256"
           },
           {
-            internalType: "uint256",
-            name: "totalItemsSelled",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "totalItemsSelled",
+            "type": "uint256"
           },
           {
-            internalType: "uint256",
-            name: "rating",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "rating",
+            "type": "uint256"
           },
           {
-            internalType: "bool",
-            name: "isExist",
-            type: "bool",
+            "internalType": "bool",
+            "name": "isExist",
+            "type": "bool"
           },
           {
-            internalType: "uint256",
-            name: "amountWithdrawn",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "amountWithdrawn",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "totalBuyers",
-        outputs: [
+        "inputs": [],
+        "name": "totalBuyers",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "totalItems",
-        outputs: [
+        "inputs": [],
+        "name": "totalItems",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "totalSellers",
-        outputs: [
+        "inputs": [],
+        "name": "totalSellers",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
-      },
+        "stateMutability": "view",
+        "type": "function"
+      }
     ];
-      const contract = await new window.web3.eth.Contract(
-        ABI,
-        "0x346Bcd05F55Cb054F69fbA6955fE80c4F2f73b00"
-      );
-      setContract(contract);
-      console.log("contract",contract);
-    
+    const contract = await new window.web3.eth.Contract(ABI, "0x346Bcd05F55Cb054F69fbA6955fE80c4F2f73b00");
+    setContract(contract);
+    console.log("contract", contract);
+
   }
-  
-  const RegisterAsSeller = async()=>{
-    if(contract && account){
-    contract.methods.RegisterAsSeller(1234,1).send({from:account,value:0}).then(()=>{
-      alert("Registered Successfully")
-      console.log("Registered");
-    })
+
+  const RegisterAsSeller = async () => {
+    if (contract && account) {
+      contract.methods.RegisterAsBuyer().send({ from: account, value: 0 }).then(() => {
+        alert("Registered Successfully")
+        console.log("Registered");
+      })
+    }
   }
-}
 
   return (
     <div className="app">
@@ -466,7 +465,7 @@ function App() {
         <Register></Register>
       </Route>
       <Route path="/profile" exact>
-        <Profile/>
+        <Profile />
       </Route>
       <Route exact path="/signin">
         <SignIn />
