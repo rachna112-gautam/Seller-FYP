@@ -10,6 +10,7 @@ import Profile from './components/Products/Profile';
 function App() {
   const [contract, setContract] = useState();
   const [account, setAccount] = useState();
+  const [balance, setBalance] = useState();
   const [sellerInfo, setSellerInfo] = useState();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ function App() {
       let account = await window.web3.eth.getAccounts();
       setAccount(account[0]);
       let balance = await window.web3.eth.getBalance(account[0]);
-      console.log('account & balance', account, balance / 10 ** 18);
+      setBalance(balance / 10 ** 18);
     }
   };
 
@@ -61,23 +62,23 @@ function App() {
     }
   };
 
-  const addItem = async (name,price,category,imageUrl) => {
+  const addItem = async (name, price, category, imageUrl) => {
     if (contract && account) {
-      await contract.methods.AddItem(name,price,category,imageUrl).send({from:account,value:0})
+      await contract.methods.AddItem(name, price, category, imageUrl).send({ from: account, value: 0 })
       alert("Item Added Successfully")
     }
   }
 
   const deleteItem = async (itemId) => {
     if (contract && account) {
-      await contract.methods.DeleteItem(itemId).send({from:account,value:0})
+      await contract.methods.DeleteItem(itemId).send({ from: account, value: 0 })
       alert("Item Deleted Successfully")
     }
   }
 
-  const updateItem = async (id,price,name,owner) => {
+  const updateItem = async (id, price, name, owner) => {
     if (contract && account) {
-      await contract.methods.UpdateItem(id,price,name,owner).send({from:account,value:0})
+      await contract.methods.UpdateItem(id, price, name, owner).send({ from: account, value: 0 })
       alert("Item Updated Successfully")
     }
   }
@@ -319,16 +320,22 @@ function App() {
     }
   };
 
+
+  const crudProduct = {
+    addItem,
+    deleteItem,
+    updateItem
+  }
   return (
     <div className="app">
       <Route path="/" exact>
-        <Home register={RegisterAsSeller} />
+        <Home sellerInfo={sellerInfo} />
       </Route>
       <Route path="/register" exact>
-        <Register />
+        <Register register={RegisterAsSeller} />
       </Route>
       <Route path="/profile" exact>
-        <Profile />
+        <Profile productOp={crudProduct} account={account} balance={balance} sellerInfo={sellerInfo} />
       </Route>
       <Route exact path="/signin">
         <SignIn />

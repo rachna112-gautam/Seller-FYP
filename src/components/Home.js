@@ -8,12 +8,12 @@ import Footer from './../components/Footer';
 export default function Home(props) {
     return (
         <div>
-            <Header />
-            <Main register={props.register} />
+            <Header sellerInfo={props.sellerInfo} />
+            <Main />
             {/* <Background /> */}
             {/* <Templates />
             <Estates /> */}
-            
+
             <Footer />
         </div>
     )

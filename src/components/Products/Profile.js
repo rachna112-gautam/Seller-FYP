@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import Item1 from "../../assets/item1.jpg";
@@ -17,11 +17,23 @@ import {
   Button,
 } from "reactstrap";
 
-export default function Profile() {
+
+const addProdInitialData = {
+  title: '',
+  price: '',
+  type: '',
+  file: ''
+}
+export default function Profile(props) {
+
+
   const [editModalInput, setEditModalInput] = useState({
     price: '',
     title: ''
   });
+
+  const [itemId, setItemId] = useState()
+  const [addProdData, setAddProdData] = useState(addProdInitialData)
   const items = [
     {
       id: 1,
@@ -73,8 +85,24 @@ export default function Profile() {
     })
     console.log(editModalInput)
   }
+
+
+  const addProductOnChangeHandle = (e) => {
+    e.preventDefault();
+    setAddProdData({
+      ...addProdData,
+      [e.target.name]: e.target.value
+    })
+
+  }
+
+  const addProdOnSubmitHandle = (e) => {
+    e.preventDefault();
+    console.log("add Product details", addProdData);
+  }
   return (
     <div className="signin">
+      {/* EDIT PRODUCT MODAL*/}
       <div
         class="modal fade"
         id="exampleModal"
@@ -184,7 +212,33 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <Header />
+
+
+      {/** DELETE PRODUCT MODAL */}
+      <div class="modal" id="deleteModal">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+          <div class="modal-content deleteModal">
+
+            <div class="modal-body">
+              <h6>Are you sure?</h6>
+              <p>If you delete this product, you can't recover it.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn deleteBtn" onClick={() =>
+                // props.productOp.deleteItem(itemId)
+                console.log("item id", itemId)
+              }>Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <Header sellerInfo={props.sellerInfo} />
+
+
       <div className="container text-center profile">
         <div class="d-flex align-items-start">
           <div
@@ -232,17 +286,17 @@ export default function Profile() {
           </div>
           <div class="tab-content w-100 p-3" id="v-pills-tabContent">
             <div
-              class="tab-pane fade show active"
+              class="tab-pane fade show active ml-3"
               id="v-pills-profile"
               role="tabpanel"
               aria-labelledby="v-pills-profile-tab"
             >
               <ul className="profile-wallet">
                 <li className="profile-wallet--list">
-                  Wallet address : <span>xxxx</span>
+                  Wallet address : <span>{props.account ? props.account : "0x"}</span>
                 </li>
                 <li className="profile-wallet--list">
-                  Wallet balance : <span>100</span>&nbsp;ETH
+                  Wallet balance : <span>{props.balance ? props.balance.toFixed(2) : "0.0"}</span>&nbsp;ETH
                 </li>
                 <li className="profile-wallet--list">
                   Product owned : <span>1</span>
@@ -282,7 +336,8 @@ export default function Profile() {
                         >
                           <i class="far fa-edit mx-3"></i>
                         </button>
-                        <button type="button" className="btn btn-danger">
+                        <button type="button" className="btn btn-danger" data-bs-toggle="modal"
+                          data-bs-target="#deleteModal" onClick={() => setItemId(data.pid)}>
                           Delete&nbsp;<i class="fas fa-delete"></i>
                         </button>
                       </div>
@@ -307,8 +362,10 @@ export default function Profile() {
                       <Col lg={9}>
                         <Input
                           type="text"
-                          name="product-title"
+                          name="title"
                           placeholder="Enter Product Title"
+                          value={addProdData.title}
+                          onChange={addProductOnChangeHandle}
                         ></Input>
                       </Col>
                       {/* <div className="valid-feedback">valid.</div>
@@ -324,9 +381,11 @@ export default function Profile() {
                       <Col lg={9}>
                         <Input
                           type="number"
-                          name="number"
+                          name="price"
                           id="product-type"
                           placeholder="Enter your Product Price"
+                          value={addProdData.price}
+                          onChange={addProductOnChangeHandle}
                           required
                         />
                       </Col>
@@ -342,10 +401,10 @@ export default function Profile() {
                         Product Type
                       </Label>
                       <Col lg={9}>
-                        <Input type="select" name="select" id="product-type">
+                        <Input type="select" name="type" id="product-type" value={addProdData.type} onChange={addProductOnChangeHandle}>
                           <option selected>Select your category</option>
-                          <option>Background</option>
-                          <option>Template</option>
+                          <option value="background">Background</option>
+                          <option value="template">Template</option>
                         </Input>
                       </Col>
                     </FormGroup>
@@ -361,6 +420,9 @@ export default function Profile() {
                           class="form-control form-control-lg"
                           id="formFileLg"
                           type="file"
+                          name="file"
+                          value={addProdData.file}
+                          onChange={addProductOnChangeHandle}
                         />
                       </FormGroup>
                       <div className="valid-feedback">valid.</div>
@@ -372,10 +434,10 @@ export default function Profile() {
                   <Row>
                     <Col>
 
-                      <button type="submit" className="btn browsing">
-                        <a href="/" className="add-product--btn">
-                          Add Product
-                        </a>
+                      <button type="submit" className="btn browsing" onClick={addProdOnSubmitHandle}>
+
+                        Add Product
+
                       </button>
                     </Col>
                   </Row>
@@ -387,6 +449,8 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
+
       <Footer />
     </div>
   );

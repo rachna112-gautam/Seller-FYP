@@ -41,7 +41,7 @@
   list-style: none;
   display: flex !important;
   flex-wrap: wrap !important;
-  padding-inline-start: 0 !important;
+  /* padding-inline-start: 0 !important; */
   width: 100% !important;
 }
 #v-pills-products ul li {
@@ -109,4 +109,20 @@ input#formFileLg {
 .edit-btn:focus {
   box-shadow: none !important;
   text-decoration: underline;
+}
+
+.deleteModal {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+button.btn.deleteBtn {
+  background-color: red;
+  color: #fff;
+  border-color: red;
+  transition: all 0.1s;
+}
+
+button.btn.deleteBtn:hover {
+  background-color: #fff;
+  color: red;
 }
