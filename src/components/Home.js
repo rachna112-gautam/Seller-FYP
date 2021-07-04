@@ -9,7 +9,7 @@ export default function Home(props) {
     return (
         <div>
             <Header sellerInfo={props.sellerInfo} />
-            <Main />
+            <Main sellerInfo={props.sellerInfo}/>
             {/* <Background /> */}
             {/* <Templates />
             <Estates /> */}

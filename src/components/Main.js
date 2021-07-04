@@ -9,13 +9,16 @@ export default function main(props) {
           Welcome to the virtual world’s one-stop-shop for the very best
           digital assets.
         </p>
-        <button
-          type="button"
-          className="btn browsing"
 
-        >
-          <a href="/register" className="text-white">Register As Seller</a>
-        </button>
+        {props.sellerInfo ? props.sellerInfo.isExist ? "" :
+          <button
+            type="button"
+            className="btn browsing"
+
+          > <a href="/register" className="text-white">Register As Seller</a>
+          </button>
+          : ""}
+
         {/* <button type="button" className="btn browsing">
             Register As Buyer
           </button> */}
